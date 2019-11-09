@@ -2,6 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
+void main(List<String> args) {
+  AudioStream temp = new AudioStream("https://www.youtube.com");
+  temp.start();
+}
+
+
 class AudioStream{
   String _url;
   static const MethodChannel _channel = const MethodChannel('url_audio_stream');
