@@ -17,28 +17,28 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
+    // initPlatformState();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await UrlAudioStream.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
+  // Future<void> initPlatformState() async {
+    
+  // }
+
+
+  static AudioStream stream = new AudioStream("http://streaming.siue.edu:8000/wsie");
+  Future<void> callAudio(String action) async{
+    if(action == "start"){
+      stream.start();
+    }else if(action == "stop"){
+      stream.stop();
+    }else if(action == "pause"){
+      stream.pause();
+    }else{
+      stream.resume();
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,34 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            children: <Widget>[
+              new RaisedButton(
+                child: new Text("Start"),
+                onPressed: (){
+                  callAudio("start");
+                },
+              ),
+              new RaisedButton(
+                child: new Text("Stio"),
+                onPressed: (){
+                  callAudio("stop");
+                },
+              ),
+              new RaisedButton(
+                child: new Text("Pause"),
+                onPressed: (){
+                  callAudio("pause");
+                },
+              ),
+              new RaisedButton(
+                child: new Text("Resume"),
+                onPressed: (){
+                  callAudio("resume");
+                },
+              )
+            ],
+          )
         ),
       ),
     );

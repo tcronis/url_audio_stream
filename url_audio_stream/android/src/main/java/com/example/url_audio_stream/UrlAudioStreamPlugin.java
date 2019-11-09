@@ -6,6 +6,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+
 /** UrlAudioStreamPlugin */
 public class UrlAudioStreamPlugin implements MethodCallHandler {
   /** Plugin registration. */
@@ -14,12 +15,17 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
     channel.setMethodCallHandler(new UrlAudioStreamPlugin());
   }
 
+
+  private static MediaPlayer player;
+  private static final String channel = "url_audio_stream";
+  private String url = "";
+
+
   @Override
   public void onMethodCall(MethodCall call, Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
-    }
+    System.out.println(call.method + ", " + call.arguments);
+
+
+    
   }
 }
