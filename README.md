@@ -1,6 +1,6 @@
 # url_audio_stream
 
-Dart plugin to HTTP/HTTPS audio live stream URLs
+Dart plugin to live stream audio URLs. The package will accept both HTTP and HTTPs urls for streaming. Specific bitrates for the streams will depend on the native application design, which is listed below. 
 
 ## Android
 Android's provided media player is used to stream the audio. This allows for starting, stopping, and pausing the live stream. 
