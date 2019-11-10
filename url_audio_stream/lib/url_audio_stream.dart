@@ -14,7 +14,7 @@ class AudioStream{
   //method start an audio stream
   Future <void> start() async{
     try{
-      await _channel.invokeMethod(_url.toString(), {"method" : "start"});
+      await _channel.invokeMethod(_url.toString(), "start");
     } on PlatformException catch (e){
       print("Stream start error : $e");
     }
@@ -23,7 +23,7 @@ class AudioStream{
   //method to stop an audio stream
   Future <void> stop() async{
     try{
-      await _channel.invokeMethod(_url.toString(), {"method" : "stop"});
+      await _channel.invokeMethod(_url.toString(), "stop");
     } on PlatformException catch (e){
       print("Stream stop error : $e");
     }
@@ -32,7 +32,7 @@ class AudioStream{
   //method to pause an audio stream
   Future <void> pause() async{
     try{
-      await _channel.invokeMethod(_url.toString(), {"method" : "pause"});
+      await _channel.invokeMethod(_url.toString(), "pause");
     } on PlatformException catch (e){
       print("Stream pause error : $e");
     }
@@ -41,7 +41,7 @@ class AudioStream{
   //method to resume an audio stream
   Future <void> resume() async{
     try{
-      await _channel.invokeMethod(_url.toString(), {"method" : "resume"});
+      await _channel.invokeMethod(_url.toString(), "resume");
     } on PlatformException catch (e){
       print("Stream resume error : $e");
     }
