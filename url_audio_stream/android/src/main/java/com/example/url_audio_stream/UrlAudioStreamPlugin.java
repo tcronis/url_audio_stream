@@ -1,21 +1,16 @@
 package com.example.url_audio_stream;
-
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-
-
 import android.util.Log;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.AudioManager;
-
 import java.io.IOException;
-
 import android.media.AudioAttributes;
 import android.net.Uri;
 
@@ -38,7 +33,7 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
   @Override
   public void onMethodCall(MethodCall call, Result result) {
     url = call.method.toString();
-    String action = call.argument.toString();
+    String action = call.arguments().toString();
     if(action.equals("start")){
       initializePlayer();
       startPlayer();
@@ -76,8 +71,6 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
           public void onPrepared(MediaPlayer mp) {
             try{
               player.start();
-            } catch (Exception e){
-              e.printStackTrace();
             } catch (IllegalStateException e){
               e.printStackTrace();
             }
@@ -89,8 +82,6 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
     } catch (Exception e){
       e.printStackTrace();
     }
-
-
   }
 
   private void stopPlayer(){
@@ -122,8 +113,8 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
 
   private void resumePlayer(){
     try{
-      if(player != null){
-        startPlayer();
+      if(player != null && !player.isPlaying()){
+        player.start();
       }
     } catch (IllegalStateException e){
       e.printStackTrace();
@@ -131,6 +122,4 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
       e.printStackTrace();
     }
   }
-
-
 }

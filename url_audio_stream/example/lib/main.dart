@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
                 },
               ),
               new RaisedButton(
-                child: new Text("Stio"),
+                child: new Text("Stop"),
                 onPressed: (){
                   callAudio("stop");
                 },
