@@ -13,6 +13,9 @@ import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.AudioManager;
+
+import java.io.IOException;
+
 import android.media.AudioAttributes;
 import android.net.Uri;
 
@@ -34,9 +37,100 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
 
   @Override
   public void onMethodCall(MethodCall call, Result result) {
-    System.out.println(call.method + ", " + call.arguments);
-
-
-    
+    url = call.method.toString();
+    String action = call.argument.toString();
+    if(action.equals("start")){
+      initializePlayer();
+      startPlayer();
+    } else if(action.equals("stop")){
+      stopPlayer();
+    } else if(action.equals("pause")){
+      pausePlayer();
+    } else{
+      resumePlayer();
+    }
   }
+
+  private void initializePlayer(){
+    player = new MediaPlayer();
+    try{
+      player.setAudioAttributes(new AudioAttributes.Builder()
+      .setUsage(AudioAttributes.USAGE_MEDIA)
+      .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+      .build());
+      player.setDataSource(url);
+    } catch (IllegalArgumentException e){
+      e.printStackTrace();
+    } catch (IllegalStateException e){
+      e.printStackTrace();
+    } catch (IOException e){
+      e.printStackTrace();
+    }
+  }
+
+  private void startPlayer(){
+    try{
+      if(player != null){
+        player.prepareAsync();
+        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+          public void onPrepared(MediaPlayer mp) {
+            try{
+              player.start();
+            } catch (Exception e){
+              e.printStackTrace();
+            } catch (IllegalStateException e){
+              e.printStackTrace();
+            }
+          }
+        });
+      }
+    } catch (IllegalStateException e){
+      e.printStackTrace();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+
+
+  }
+
+  private void stopPlayer(){
+    try{
+      if(player != null){
+        player.stop();
+        player.reset();
+        player.release();
+        player = null;
+      }
+    } catch (IllegalStateException e){
+      e.printStackTrace();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  private void pausePlayer(){
+    try{
+      if(player != null){
+        player.pause();
+      }
+    } catch (IllegalStateException e){
+      e.printStackTrace();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
+  private void resumePlayer(){
+    try{
+      if(player != null){
+        startPlayer();
+      }
+    } catch (IllegalStateException e){
+      e.printStackTrace();
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+
+
 }
