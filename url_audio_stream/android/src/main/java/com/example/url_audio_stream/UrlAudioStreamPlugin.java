@@ -14,11 +14,7 @@ import java.io.IOException;
 import android.media.AudioAttributes;
 import android.net.Uri;
 
-
-
-/** UrlAudioStreamPlugin */
 public class UrlAudioStreamPlugin implements MethodCallHandler {
-  /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "url_audio_stream");
     channel.setMethodCallHandler(new UrlAudioStreamPlugin());
