@@ -13,6 +13,7 @@ import android.media.AudioManager;
 import java.io.IOException;
 import android.media.AudioAttributes;
 import android.net.Uri;
+import android.os.Build.VERSION; 
 
 public class UrlAudioStreamPlugin implements MethodCallHandler {
   public static void registerWith(Registrar registrar) {
@@ -21,10 +22,11 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
   }
 
 
-  private static MediaPlayer player;
+  private static MediaPlayer player = null;
   private static final String channel = "url_audio_stream";
   private String url = "";
-
+  private static final int sdk_build_version = android.os.Build.VERSION.SDK_INT;
+  private static final boolean use_deprecated = sdk_build_version < 26 ? true : false;
 
   @Override
   public void onMethodCall(MethodCall call, Result result) {
@@ -45,10 +47,14 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
   private void initializePlayer(){
     player = new MediaPlayer();
     try{
-      player.setAudioAttributes(new AudioAttributes.Builder()
-      .setUsage(AudioAttributes.USAGE_MEDIA)
-      .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-      .build());
+      if(use_deprecated == false){
+        player.setAudioAttributes(new AudioAttributes.Builder()
+        .setUsage(AudioAttributes.USAGE_MEDIA)
+        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+        .build());
+      }else{
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+      }
       player.setDataSource(url);
     } catch (IllegalArgumentException e){
       e.printStackTrace();
@@ -97,7 +103,7 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
 
   private void pausePlayer(){
     try{
-      if(player != null){
+      if(player != null && player.isPlaying()){
         player.pause();
       }
     } catch (IllegalStateException e){
