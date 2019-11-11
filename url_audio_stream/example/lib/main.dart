@@ -17,13 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // initPlatformState();
   }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  // Future<void> initPlatformState() async {
-    
-  // }
 
 
   static AudioStream stream = new AudioStream("http://streaming.siue.edu:8000/wsie.mp3");
