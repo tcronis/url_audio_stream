@@ -4,7 +4,9 @@ import AVFoundation
 
 
 public class SwiftUrlAudioStreamPlugin: NSObject, FlutterPlugin {
-  let audioSession = AVAudioSession.sharedInstance()
+  var player:AVPlayer?
+  var playerItem:AVPlayerItem?
+
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "url_audio_stream", binaryMessenger: registrar.messenger())
@@ -20,48 +22,61 @@ public class SwiftUrlAudioStreamPlugin: NSObject, FlutterPlugin {
     }else if(action == "stop"){
       stop()
     }else if(action == "pause"){
-
+      pause()
     }else{
-
+      resume()
     }
 
 
   }
-
-  lazy var playerQueue : AVQueuePlayer = {
-    return AVQueuePlayer()
-  }()
-
+  
   private func start(url : String){
-
     do{
-      try AVAudioSession.sharedInstace().setCategory(AVAudioSession.Category.playback)
-      do{
-        try audioSession.setActive(true)
-      } catch let error as NSError{
-        NSLog("\n\(error.localizedDescription)")
-      }
-    } catch{
-      NSLog("\n Failed category set")
+      let u = URL(string: url)
+      let playerItem:AVPlayerItem = AVPlayerItem(url: u!)
+      try player = AVPlayer(playerItem: playerItem)
+      try player!.play()
+    } catch {
+      NSLog("\n Failed to start playing")
     }
-    let u = URL(string : url)!
 
-    let p = AVPlayerItem.init(url : u)
-    self.playerQueue.insert(p, after: nil)
-    self.playerQueue.play()
+    
   }
 
   private func stop(){
-    self.playerQueue.removeAllItems()
-    do{
-      try AVAudioSession.sharedInstace().setCategory(AVAudioSession.Category.playback, options: [.mixWithOthers])
-      do{
-        try audioSession.setActive(false, options: [.notifyOthersOnDeactivation])
-      } catch let error as NSError{
-        NSLog("\n\(error.localizedDescription)")
+    if let play = player{
+      if player?.rate != 0{
+        do{
+          try player!.pause()
+          try player = nil
+        }catch{
+          NSLog("\n Failed to stop player")
+        }
       }
-    } catch {
-      NSLog("\n Failed removal")
+    }
+  }
+
+  private func pause(){
+    if let play = player {
+      if player?.rate != 0{
+        do{
+          try player!.pause()
+        } catch{
+          NSLog("\n Failed to pause player")
+        }
+      }
+    }
+  }
+  
+  private func resume(){
+    if let play = player {
+      if player?.rate == 0{
+        do{
+          try player!.play()
+        } catch {
+          NSLog("\n Failed to resume player")
+        }
+      }
     }
   }
 
