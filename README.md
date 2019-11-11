@@ -2,8 +2,23 @@
 
 Dart plugin to live stream audio URLs. The package will accept both HTTP and HTTPs URLs for streaming. Specifics will be discussed below for native designs, limitations, and implementations. Any help would be greatly appreciated if possible! 
 
+## Usage
+```dart
+AudioStream stream = new AudioStream("https://your_url_goes_here.com");
+Future<void> streamAccess(String action) async{
+    if(action == "start")
+        stream.start();
+    else if(action == "stop")
+        stream.stop();
+    else if(action == "pause")
+        stream.pause();
+    else
+        stream.resume();
+}
+```
+
 ## Android
-The Android MediaPlayer was used for audio streaming over HTTP/HTTPS. Refer to the [Android](https://developer.android.com/reference/android/media/MediaPlayer.html) for information about the MediaPlayer. The player uses the setAudioAttributes method for setting up the MediaPlayer as of now (11/9/19) which was implemented in API level 21. Later on, an implementation will include the setAudioStreamType for API levels lower than 26 (to API level 1).
+The Android MediaPlayer was used for audio streaming over HTTP/HTTPS. Refer to the [Android](https://developer.android.com/reference/android/media/MediaPlayer.html) for information about the MediaPlayer. The player uses [setAudioAttributes](https://developer.android.com/reference/android/media/MediaPlayer.html#setAudioAttributes(android.media.AudioAttributes)) method for setting up the MediaPlayer for API levels over 26. Anything under that API level will use [setAudioStreamType](https://developer.android.com/reference/android/media/MediaPlayer.html#setAudioStreamType(int)) method, which was deprecated in API level 26. Due to this adaption, the flutter compiler will give a message that the plugin is using a deprecated method.
 
 ### HTTP Streams
 Android requires an edit to your android manifest to allow connection to non-HTTP sources, follow this [link](https://stackoverflow.com/questions/51902629/how-to-allow-all-network-connection-types-http-and-https-in-android-9-pie) to edit the manifest for clear text traffic. 
