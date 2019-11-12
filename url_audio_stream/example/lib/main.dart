@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   }
 
 
-  static AudioStream stream = new AudioStream("http://streaming.siue.edu:8000/wsie.mp3");
+  static AudioStream stream = new AudioStream("");
   Future<void> callAudio(String action) async{
     if(action == "start"){
       stream.start();

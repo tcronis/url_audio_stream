@@ -33,6 +33,7 @@ class AudioStream{
     } on PlatformException catch (e){
       print("Stream pause error : $e");
     }
+  }
 
   Future <void> resume() async{
     try{
