@@ -1,7 +1,7 @@
 name: url_audio_stream
 description: A new flutter plugin project.
 version: 1.0.0+1
-author: tcronis (Tyler)
+author: tcronis <tcronist@gmail.com>
 homepage: https://github.com/tcronis
 
 environment:
