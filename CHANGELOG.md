@@ -1,3 +1,8 @@
-## 0.0.1
+# url_audio_stream
 
-* TODO: Describe initial release.
+## 1.0.0+1
+### Android
+- Added an ability to stream on all APIs that Flutter can run on
+
+### iOS
+- iOS can stream in the background
