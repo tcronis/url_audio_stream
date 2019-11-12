@@ -6,3 +6,6 @@
 
 ### iOS
 - iOS can stream in the background
+
+## 1.0.0+2
+- Changed the homepage reference 

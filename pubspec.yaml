@@ -1,6 +1,6 @@
 name: url_audio_stream
-description: Flutter/Dart plugin to live stream a URL. Contains platform specific code for streaming.
-version: 1.0.0+1
+description: Flutter/Dart plugin to live stream a URL
+version: 1.0.0+2
 author: tcronis <tcronist@gmail.com>
 homepage: https://github.com/tcronis/url_audio_stream
 
