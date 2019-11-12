@@ -3,18 +3,22 @@
 Dart plugin to live stream audio URLs. The package will accept both HTTP and HTTPs URLs for streaming. Specifics will be discussed below for native designs, limitations, and implementations. Any help would be greatly appreciated if possible! 
 
 ## Usage
+**Add the dependency**
+```dart
+dev_dependencies:
+  url_audio_stream:
+```
+**Import the package into your dart file**
+```dart
+import 'package:url_audio_stream/url_audio_stream.dart';
+```
+**Functions and usage**
 ```dart
 AudioStream stream = new AudioStream("https://your_url_goes_here.com");
-Future<void> streamAccess(String action) async{
-    if(action == "start")
-        stream.start();
-    else if(action == "stop")
-        stream.stop();
-    else if(action == "pause")
-        stream.pause();
-    else
-        stream.resume();
-}
+stream.start();
+stream.pause();
+stream.resume();
+stream.stop();
 ```
 
 ## Android
