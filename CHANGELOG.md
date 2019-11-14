@@ -9,3 +9,8 @@
 
 ## 1.0.0+2
 - Changed the homepage reference 
+
+## 1.0.0+3
+- API comments for iOS and Android
+- A detailed description was added to pubspec.yaml
+- Flutter formatting was applied to the url_audio_stream.dart file

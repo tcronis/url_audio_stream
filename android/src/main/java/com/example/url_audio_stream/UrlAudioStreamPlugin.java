@@ -16,18 +16,19 @@ import android.net.Uri;
 import android.os.Build.VERSION; 
 
 public class UrlAudioStreamPlugin implements MethodCallHandler {
-  public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "url_audio_stream");
-    channel.setMethodCallHandler(new UrlAudioStreamPlugin());
-  }
-
-
   private static MediaPlayer player = null;
   private static final String channel = "url_audio_stream";
   private String url = "";
   private static final int sdk_build_version = android.os.Build.VERSION.SDK_INT;
   private static final boolean use_deprecated = sdk_build_version < 26 ? true : false;
 
+  //Registering the communication channel between android and java
+  public static void registerWith(Registrar registrar) {
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), "url_audio_stream");
+    channel.setMethodCallHandler(new UrlAudioStreamPlugin());
+  }
+
+  //When the flutter API accesses the cold, this will decide on the action to take based on what is passed
   @Override
   public void onMethodCall(MethodCall call, Result result) {
     url = call.method.toString();
@@ -44,6 +45,7 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
     }
   }
 
+  //setting the data source for the mediaplayer object, based on android operating system level (API)
   private void initializePlayer(){
     player = new MediaPlayer();
     try{
@@ -65,6 +67,7 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
     }
   }
 
+  //starting the player, will run in async to avoid the main thread from waiting
   private void startPlayer(){
     try{
       if(player != null){
@@ -86,6 +89,7 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
     }
   }
 
+  //stopping the mediaplayer and setting all objects back to their original states
   private void stopPlayer(){
     try{
       if(player != null){
@@ -101,6 +105,7 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
     }
   }
 
+  //pausing the player if it is already set and playing
   private void pausePlayer(){
     try{
       if(player != null && player.isPlaying()){
@@ -113,6 +118,7 @@ public class UrlAudioStreamPlugin implements MethodCallHandler {
     }
   }
 
+  //resuming the player which is just starting the audio again, if the player was initialized
   private void resumePlayer(){
     try{
       if(player != null && !player.isPlaying()){
