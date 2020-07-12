@@ -1,5 +1,5 @@
 # url_audio_stream
-
+## I have depreciated this package, for now, I haven't had time to keep up with the issues and continue development on it. Sorry. 
 Dart plugin to live stream audio URLs. The package will accept both HTTP and HTTPs URLs for streaming. Specifics will be discussed below for native designs, limitations, and implementations. Any help would be greatly appreciated if possible! 
 
 ## Usage
